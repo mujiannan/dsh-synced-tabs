@@ -1,0 +1,24 @@
+# Normalize text to LF in the repository. This file is load-bearing, not cosmetic:
+# the same tree is checked out on Windows and on Linux, and a submodule's own
+# .gitattributes governs it -- the parent repository's file does not reach in here.
+# Without this, a commit made on Windows (where Git for Windows sets
+# core.autocrlf=true system-wide) can carry CRLF into the repository, after which the
+# two clients disagree about a tree neither of them changed.
+* text=auto eol=lf
+
+# Windows command scripts are the only text formats that require CRLF.
+*.bat text eol=crlf
+*.cmd text eol=crlf
+
+# Keep generated or packaged assets byte-for-byte.
+*.gif binary
+*.ico binary
+*.jpeg binary
+*.jpg binary
+*.pdf binary
+*.png binary
+*.pyc binary
+*.ttf binary
+*.woff binary
+*.woff2 binary
+*.zip binary
