@@ -20,7 +20,7 @@
     "docs"
   ],
   "scripts": {
-    "test": "node --test 'test/*.test.mjs'",
+    "test": "node --test test/tabs.test.mjs test/host.test.mjs",
     "prepublishOnly": "node --test 'test/*.test.mjs'"
   },
   "peerDependencies": {
