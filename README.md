@@ -4,6 +4,10 @@
 
 [English](README.en.md) · MIT · 需要 DSH `>= 0.2.1`
 
+[![CI](https://github.com/mujiannan/dsh-synced-tabs/actions/workflows/ci.yml/badge.svg)](https://github.com/mujiannan/dsh-synced-tabs/actions/workflows/ci.yml)
+[![npm](https://img.shields.io/npm/v/dsh-synced-tabs)](https://www.npmjs.com/package/dsh-synced-tabs)
+[![license](https://img.shields.io/npm/l/dsh-synced-tabs)](LICENSE)
+
 ## 它解决什么
 
 - **会话太多**：DSH 的会话从左侧栏打开，切走之后就没有「现在开着哪几个」的显式视图。这里给你一条标签栏。

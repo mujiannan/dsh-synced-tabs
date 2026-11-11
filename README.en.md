@@ -5,6 +5,10 @@
 
 [中文](README.md) · MIT · Requires DSH `>= 0.2.1`
 
+[![CI](https://github.com/mujiannan/dsh-synced-tabs/actions/workflows/ci.yml/badge.svg)](https://github.com/mujiannan/dsh-synced-tabs/actions/workflows/ci.yml)
+[![npm](https://img.shields.io/npm/v/dsh-synced-tabs)](https://www.npmjs.com/package/dsh-synced-tabs)
+[![license](https://img.shields.io/npm/l/dsh-synced-tabs)](LICENSE)
+
 ## What it solves
 
 - **Too many sessions.** DSH opens conversations from the left sidebar; once you switch away there is no

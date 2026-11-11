@@ -1,0 +1,44 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        node: [20, 22]
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node }}
+
+      - name: Offline test suite
+        run: npm test
+
+      - name: Syntax check
+        run: |
+          node --check client.js
+          node --check index.js
+          node --check lib/host.js
+
+      - name: Package contents
+        run: |
+          npm pack --dry-run 2>&1 | tee /tmp/pack.txt
+          grep -q "total files: 11" /tmp/pack.txt
+          if grep -q "test/" /tmp/pack.txt; then
+            echo "tests must not ship in the package"
+            exit 1
+          fi
+
+      - name: No private references
+        run: bash scripts/check-public.sh
