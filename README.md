@@ -2,7 +2,7 @@
 
 > DeepSeek Harness（DSH）Web GUI 的会话标签栏：把「打开过的会话」变成一条显式的活跃集合，并且**在同一宿主的多个设备之间共享**。
 
-[English](README.en.md) · MIT · 需要 DSH `>= 0.2.1`
+[English](README.en.md) · MIT · 需要 DSH `>= 0.2.0-rc.2`（peer 下限；逐版本实测见 [COMPATIBILITY.md](COMPATIBILITY.md)）
 
 [![CI](https://github.com/mujiannan/dsh-synced-tabs/actions/workflows/ci.yml/badge.svg)](https://github.com/mujiannan/dsh-synced-tabs/actions/workflows/ci.yml)
 [![npm](https://img.shields.io/npm/v/dsh-synced-tabs)](https://www.npmjs.com/package/dsh-synced-tabs)

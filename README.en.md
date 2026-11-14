@@ -3,7 +3,7 @@
 > Session tabs for the DeepSeek Harness (DSH) Web GUI: every conversation you have opened becomes an explicit
 > set of tabs that is **shared across all devices attached to the same host**.
 
-[中文](README.md) · MIT · Requires DSH `>= 0.2.1`
+[中文](README.md) · MIT · Requires DSH `>= 0.2.0-rc.2` (peer floor; per-version results in [COMPATIBILITY.md](COMPATIBILITY.md))
 
 [![CI](https://github.com/mujiannan/dsh-synced-tabs/actions/workflows/ci.yml/badge.svg)](https://github.com/mujiannan/dsh-synced-tabs/actions/workflows/ci.yml)
 [![npm](https://img.shields.io/npm/v/dsh-synced-tabs)](https://www.npmjs.com/package/dsh-synced-tabs)
