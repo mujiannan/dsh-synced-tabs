@@ -4,6 +4,7 @@
 
 | DSH 版本 | 结果 | 日期 | 备注 |
 |---|---|---|---|
+| `0.2.2-rc.2` | 日常使用无异常（未跑 P0 读数） | 2026-11-14 | WSL 站与 Windows 原生站同日升级到 `0.2.2-rc.2`（插件仍为 `0.4.1`）；此后约一天日常使用无异常（用户反馈）。**未跑**顶部那套 P0 逐项 DOM 读数，因此不记为「通过」；需要硬证据时按下文 P0 清单补测 |
 | `0.2.1-rc.2` | 通过（P2-5 入口左移 + 抽屉不盖横条） | 2026-11-09 | 真实实例 8897 + headless Chrome（390×844，DPR 2，touch）：入口 `.dshtabs-menu` 矩形 **`x=8 y=797 w=45 h=47`**（横条最左、贴底边），当前标签从 `x=59` 起；点开后 `.dshtabs-sheet` **`y=462 h=334 bottom=796`**、`.dshtabs-scrim` **`h=796 bottom=796`**，两者都停在横条上沿（横条 796–844 保持可点，`elementFromPoint(195,820)` 命中 `dshtabs-tab`）；`aria-expanded` 由 `false → true` 且按钮背景变为 `interactive-bg-active`；头部的 `.dshtabs-sheet-close`（**44×36**）点击后面板消失、`aria-expanded=false`、焦点回到 `dshtabs-menu`。离线 `npm test` **74/74** |
 | `0.2.1-rc.2` | 通过（P2-4 窄屏横条贴底） | 2026-11-09 | 真实实例 8897 + headless Chrome 143（CDP 390×844 与 1280×900）：窄屏 `.dshtabs` 矩形 **`x=0 y=796 w=390 h=48`（贴底，底边 = 视口底边）**、框架 `padding-top: 0px` / `padding-bottom: 48px`、`documentElement.scrollHeight = 844 = innerHeight`；1280px 下横条仍在顶部（`y=0 h=37`、`padding-top: 37px`、`padding-bottom: 0`），与改之前逐项一致。离线 `npm test` **71/71**。动机与宿主读数见下文 §「DSH 0.2.2 的响应式侧边栏」 |
 | `0.2.2-rc.1` | 通过（P2-6 软键盘不再留空白） | 2026-11-10 | 真机 **Android 13 / vivo V2046A**（360×649, DPR 3）+ 诊断代理注入覆盖层：开键盘前 `ih=649`、横条 `y601 h48 b649`；点输入框开键盘后，未加 `interactive-widget` 时布局视口仍是 649、可视视口被平移，横条与键盘之间露出一条空白；插件补上 `interactive-widget=resizes-content` 后 → **`ih=378`、`html/body/#root=378`、横条 `y330 h48 b378`**，紧贴键盘、空白消失。离线 `npm test` **75/75** |
