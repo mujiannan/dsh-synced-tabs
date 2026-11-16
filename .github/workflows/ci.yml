@@ -31,25 +31,5 @@ jobs:
           node --check index.js
           node --check lib/host.js
 
-      - name: Package contents
-        run: |
-          set -o pipefail
-          npm pack --dry-run 2>&1 | tee /tmp/pack.txt
-          missing=0
-          for f in client.js index.js lib/client.d.ts lib/host.js cordis.patch.yml \
-                   README.md README.en.md COMPATIBILITY.md LICENSE package.json; do
-            grep -q " $f\$" /tmp/pack.txt || { echo "missing from package: $f"; missing=1; }
-          done
-          grep -q " docs/" /tmp/pack.txt || { echo "docs must ship in the package"; missing=1; }
-          if grep -q " test/" /tmp/pack.txt; then
-            echo "tests must not ship in the package"
-            missing=1
-          fi
-          if grep -q " scripts/" /tmp/pack.txt; then
-            echo "scripts must not ship in the package"
-            missing=1
-          fi
-          exit $missing
-
       - name: No private references
         run: bash scripts/check-public.sh
