@@ -34,7 +34,7 @@
 - **Zero intrusion.** It only mounts into the official `shell.overlay` slot, only uses its own data attributes,
   one CSS variable and one exact route. No host files are touched, and uninstalling leaves nothing behind.
   Single-file client, no build step, no runtime dependencies (peers are DSH packages and `react`).
-- **Verifiable.** 75 offline tests execute the real `client.js` bytes in a `node:vm` harness — no browser, no
+- **Verifiable.** Offline tests execute the real `client.js` bytes in a `node:vm` harness — no browser, no
   running DSH instance. Per-version measurements live in the compatibility table.
 
 ## Install
@@ -48,6 +48,9 @@ Reload the page (or let the host reload plugins) and the tab strip appears at th
 ```bash
 dsh plugin --profile web remove dsh-synced-tabs
 ```
+
+Uninstalling does not delete the shared set: `$DSH_HOME/dsh-tabs/state.json` stays, so reinstalling restores it.
+Delete that file if you want to start from an empty set.
 
 ## Usage
 
@@ -68,7 +71,7 @@ Closing a tab **never** deletes, archives or stops the session — it only leave
   low-frequency; a 3-second poll is enough and survives host restarts and network blips.
 - If the host endpoint is unavailable (older host, host half not loaded), the client drops to local-only mode
   and replays its queue once the endpoint is back.
-- Conflict rules, `seq` semantics and the state file format are documented in [docs/DESIGN.md](docs/DESIGN.md) §4.8.
+- Conflict rules, `seq` semantics and the state file format are documented in [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) §3.
 
 ## Compatibility
 
@@ -79,7 +82,7 @@ untested versions are marked "unverified" rather than guessed.
 ## Development
 
 ```bash
-npm test        # 75 offline tests: run the real client.js in node:vm with a minimal React stand-in and fake DOM
+npm test        # offline tests: run the real client.js in node:vm with a minimal React stand-in and fake DOM
 ```
 
 Layout:
@@ -90,7 +93,8 @@ index.js              host half entry
 lib/host.js           host half: state file + the exact /api/dsh-tabs/state route
 lib/client.d.ts       host contract types (which APIs, from which DSH version)
 cordis.patch.yml      inserts exactly one plugin mount
-docs/DESIGN.md        design record: rationale, pitfalls, budget and maintenance rules
+docs/ARCHITECTURE.md  architecture, host contract and the sync protocol
+docs/DEVELOPMENT.md   tests, release and the post-upgrade checklist
 COMPATIBILITY.md      per-DSH-version measurement table
 test/                 offline tests (the harness executes the real source)
 ```

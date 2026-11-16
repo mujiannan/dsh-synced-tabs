@@ -21,7 +21,7 @@
   状态落 `$DSH_HOME/dsh-tabs/state.json`；客户端乐观更新 + 补发队列 + 3 秒轮询，断网退回本地模式并在恢复后自动补发。
 - **手机是一等公民**：窄屏横条贴底、左下手势区开抽屉、抽屉不盖横条、开软键盘把布局视口压下去（`interactive-widget=resizes-content`）——每条都有真机读数支撑，见 [COMPATIBILITY.md](COMPATIBILITY.md)。
 - **零侵入**：只挂官方 `shell.overlay` 槽位，只用自己的 data 属性、一个 CSS 变量和一条精确路由；不改宿主任意文件，卸载清理干净。单文件客户端、无构建、无运行时依赖（peer 只有 DSH 官方包与 `react`）。
-- **可验证**：75 条离线测试直接执行真实 `client.js` 字节（不需要浏览器、不需要 DSH 实例）；每个 DSH 版本的实测读数记录在兼容性表里。
+- **可验证**：离线测试直接执行真实 `client.js` 字节（不需要浏览器、不需要 DSH 实例），覆盖交互与降级；每个 DSH 版本的实测读数记录在兼容性表里。
 
 ## 安装
 
@@ -34,6 +34,8 @@ dsh plugin --profile web add dsh-synced-tabs
 ```bash
 dsh plugin --profile web remove dsh-synced-tabs
 ```
+
+卸载不会删共享集合：`$DSH_HOME/dsh-tabs/state.json` 留着，重新装上即原样恢复；想彻底清空就删掉它。
 
 ## 用法
 
@@ -52,7 +54,7 @@ dsh plugin --profile web remove dsh-synced-tabs
 - 客户端与宿主之间是「精确路由 + 轮询」而不是 WebSocket/事件流：标签变更是低频事件，3 秒轮询足够，
   且能在宿主重启、网络闪断后自愈。
 - 宿主端点不可用（旧宿主 / 未加载 Host 半边）时，客户端退回**本设备本地模式**，恢复后按队列补发。
-- 冲突规则、`seq` 语义、状态文件格式见 [docs/DESIGN.md](docs/DESIGN.md) §4.8。
+- 冲突规则、`seq` 语义、状态文件格式见 [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) §3。
 
 ## 兼容性
 
@@ -62,7 +64,7 @@ DSH 的客户端 API 仍在快速演进，每个版本都要重新验收。逐�
 ## 开发
 
 ```bash
-npm test        # 75 条离线测试：在 node:vm 里执行真实 client.js，配一个最小 React 替身与假 DOM
+npm test        # 离线测试：在 node:vm 里执行真实 client.js，配最小 React 替身与假 DOM
 ```
 
 仓库结构：
@@ -73,7 +75,8 @@ index.js              宿主半边的入口
 lib/host.js           宿主半边：状态文件 + /api/dsh-tabs/state 精确路由
 lib/client.d.ts       宿主契约类型（依赖哪些 API、哪个版本提供）
 cordis.patch.yml      只插入一行插件挂载
-docs/DESIGN.md        设计记录：为什么这么写、踩过的坑、预算与维护约束
+docs/ARCHITECTURE.md  架构、宿主契约与同步协议
+docs/DEVELOPMENT.md   测试、发版与 DSH 升级检查单
 COMPATIBILITY.md      逐 DSH 版本的实测表
 test/                 离线测试（harness 执行真实源码）
 ```
@@ -81,7 +84,7 @@ test/                 离线测试（harness 执行真实源码）
 **内部标识为什么还带 `dsh-tabs` 前缀**：这条插件早于改名就已部署，`data-dsh-tabs` / `--dsh-tabs-h` /
 `/api/dsh-tabs/state` 与 `$DSH_HOME/dsh-tabs/state.json` 是已有实例的数据与挂载契约，改名会丢共享集合。
 对外只有包名、插件 id、客户端注册 id 与文档使用 `dsh-synced-tabs`——**客户端注册 id
-（`__ModuleLoader__.load({id})`）必须等于包名**，它是 boot graph 的行键（见 `docs/DESIGN.md` §7.10）。
+（`__ModuleLoader__.load({id})`）必须等于包名**，它是 boot graph 的行键（见 [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) §7）。
 
 ## 范围（明确不做）
 
